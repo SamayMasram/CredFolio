@@ -1,8 +1,9 @@
 import { MongoClient, Db, ObjectId, Binary } from 'mongodb';
 import { Certificate, CertificateType } from '@/types';
 
+const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
 const FALLBACK_LOCAL_URI = 'mongodb://127.0.0.1:27017/certilink';
-const primaryUri = process.env.MONGODB_URI || FALLBACK_LOCAL_URI;
+const primaryUri = process.env.MONGODB_URI || (isProduction ? '' : FALLBACK_LOCAL_URI);
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -13,6 +14,10 @@ declare global {
 }
 
 async function createConnectedClient(uri: string): Promise<MongoClient> {
+  if (!uri) {
+    throw new Error('MONGODB_URI environment variable is missing on Vercel/Production.');
+  }
+
   const isAtlas = uri.startsWith('mongodb+srv://');
   const mongoClient = new MongoClient(uri, {
     serverSelectionTimeoutMS: isAtlas ? 5000 : 3000,
@@ -22,8 +27,8 @@ async function createConnectedClient(uri: string): Promise<MongoClient> {
     await mongoClient.connect();
     return mongoClient;
   } catch (primaryErr) {
-    if (isAtlas && uri !== FALLBACK_LOCAL_URI) {
-      console.warn('MongoDB Atlas connection failed, falling back to local MongoDB:', (primaryErr as Error).message);
+    if (!isProduction && isAtlas && uri !== FALLBACK_LOCAL_URI) {
+      console.warn('MongoDB Atlas connection failed in dev, trying local fallback:', (primaryErr as Error).message);
       const fallbackClient = new MongoClient(FALLBACK_LOCAL_URI, { serverSelectionTimeoutMS: 3000 });
       await fallbackClient.connect();
       return fallbackClient;
@@ -50,8 +55,12 @@ export async function getMongoDb(): Promise<Db> {
   try {
     const client = await getMongoClientPromise();
     return client.db('certilink');
-  } catch (err) {
-    console.error('getMongoDb error, attempting direct local connection:', err);
+  } catch (err: any) {
+    if (isProduction) {
+      console.error('MongoDB Connection Error on Vercel/Production:', err.message);
+      throw new Error(`MongoDB connection failed on Vercel. Ensure MONGODB_URI is set in Vercel Dashboard and Network Access (IP Whitelist 0.0.0.0/0) is configured in MongoDB Atlas. (${err.message})`);
+    }
+    console.error('getMongoDb error, attempting direct local connection fallback:', err.message);
     const localClient = new MongoClient(FALLBACK_LOCAL_URI, { serverSelectionTimeoutMS: 3000 });
     await localClient.connect();
     return localClient.db('certilink');
