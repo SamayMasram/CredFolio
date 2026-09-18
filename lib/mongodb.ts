@@ -1,5 +1,5 @@
 import { MongoClient, Db, ObjectId, Binary } from 'mongodb';
-import { Certificate, CertificateType } from '@/types';
+import { Certificate, CertificateType, UserProfile, ProfileVisibility } from '@/types';
 
 const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
 const FALLBACK_LOCAL_URI = 'mongodb://127.0.0.1:27017/certilink';
@@ -95,8 +95,11 @@ export interface MongoCertificateDocument {
 }
 
 /**
- * Stores a binary file (PDF or Image) into MongoDB media_files collection
+ * Stores a binary file (PDF or Image) into MongoDB media_files collection.
+ * Safe limit is 14MB to account for BSON document overhead.
  */
+const SAFE_BSON_LIMIT = 14 * 1024 * 1024; // 14MB — leaves room for BSON overhead within the 16MB doc limit
+
 export async function storeMediaFile({
   filename,
   contentType,
@@ -106,6 +109,12 @@ export async function storeMediaFile({
   contentType: string;
   buffer: Buffer;
 }): Promise<string> {
+  if (buffer.length > SAFE_BSON_LIMIT) {
+    throw new Error(
+      `File size (${(buffer.length / (1024 * 1024)).toFixed(1)}MB) exceeds the safe storage limit of ${(SAFE_BSON_LIMIT / (1024 * 1024)).toFixed(0)}MB.`
+    );
+  }
+
   const db = await getMongoDb();
   const collection = db.collection<MediaFileDocument>('media_files');
 
@@ -117,8 +126,13 @@ export async function storeMediaFile({
     created_at: new Date().toISOString(),
   };
 
-  const result = await collection.insertOne(doc);
-  return result.insertedId.toString();
+  try {
+    const result = await collection.insertOne(doc);
+    return result.insertedId.toString();
+  } catch (err: any) {
+    console.error('MongoDB insertOne failed for media file:', err);
+    throw new Error(`Failed to store file in MongoDB: ${err.message || 'Unknown database error'}`);
+  }
 }
 
 /**
@@ -142,19 +156,32 @@ export async function getMediaFileById(id: string): Promise<{
     const fileDoc = await collection.findOne({ _id: new ObjectId(id) });
     if (!fileDoc) return null;
 
+    // Correctly extract buffer from MongoDB Binary (mongodb@7.x driver)
     let buffer: Buffer;
     if (Buffer.isBuffer(fileDoc.data)) {
       buffer = fileDoc.data;
-    } else if (fileDoc.data && typeof (fileDoc.data as any).buffer !== 'undefined') {
-      buffer = Buffer.from((fileDoc.data as Binary).buffer);
+    } else if (fileDoc.data instanceof Binary) {
+      // mongodb@7.x: Binary.buffer is a Uint8Array
+      buffer = Buffer.from(fileDoc.data.buffer);
+    } else if (fileDoc.data && typeof (fileDoc.data as any).buffer === 'function') {
+      // Legacy fallback: some Binary versions expose .buffer() as a method
+      buffer = Buffer.from((fileDoc.data as any).buffer());
+    } else if (fileDoc.data && (fileDoc.data as any).buffer instanceof Uint8Array) {
+      buffer = Buffer.from((fileDoc.data as any).buffer);
     } else {
+      // Last resort — try direct conversion
       buffer = Buffer.from(fileDoc.data as any);
+    }
+
+    if (!buffer || buffer.length === 0) {
+      console.error('Retrieved media file has empty buffer, id:', id);
+      return null;
     }
 
     return {
       filename: fileDoc.filename,
       contentType: fileDoc.contentType,
-      size: fileDoc.size,
+      size: fileDoc.size || buffer.length,
       buffer,
       created_at: fileDoc.created_at,
     };
@@ -286,5 +313,191 @@ export async function reorderCertificatesInMongo(items: { id: string; sort_order
       return collection.updateOne(queryFilter, { $set: { sort_order: item.sort_order, updated_at: now } });
     })
   );
+}
+
+/**
+ * User Profile Storage in MongoDB
+ */
+export interface MongoProfileDocument {
+  _id?: ObjectId;
+  uid: string;
+  username: string;
+  full_name: string;
+  headline?: string;
+  bio?: string;
+  avatar_url?: string | null;
+  visibility: ProfileVisibility;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function storeProfileInMongo(
+  data: Partial<UserProfile> & { uid: string; username: string; full_name: string }
+): Promise<UserProfile> {
+  const db = await getMongoDb();
+  const collection = db.collection<MongoProfileDocument>('profiles');
+  const now = new Date().toISOString();
+
+  const normalizedUsername = data.username.toLowerCase().trim();
+
+  // Check if username is already taken by another user
+  const existingUser = await collection.findOne({
+    username: normalizedUsername,
+    uid: { $ne: data.uid },
+  });
+  if (existingUser) {
+    throw new Error('Username is already taken');
+  }
+
+  const profileDoc: Partial<MongoProfileDocument> = {
+    uid: data.uid,
+    username: normalizedUsername,
+    full_name: data.full_name.trim(),
+    headline: data.headline?.trim() || '',
+    bio: data.bio?.trim() || '',
+    avatar_url: data.avatar_url || null,
+    visibility: (data.visibility as ProfileVisibility) || 'public',
+    updated_at: now,
+  };
+
+  await collection.updateOne(
+    { uid: data.uid },
+    {
+      $set: profileDoc,
+      $setOnInsert: { created_at: now },
+    },
+    { upsert: true }
+  );
+
+  const saved = await collection.findOne({ uid: data.uid });
+  return {
+    uid: saved!.uid,
+    username: saved!.username,
+    full_name: saved!.full_name,
+    headline: saved!.headline || '',
+    bio: saved!.bio || '',
+    avatar_url: saved!.avatar_url || undefined,
+    visibility: saved!.visibility,
+    created_at: saved!.created_at,
+    updated_at: saved!.updated_at,
+  };
+}
+
+export async function getProfileFromMongo(identifier: string): Promise<UserProfile | null> {
+  try {
+    if (!identifier) return null;
+    const db = await getMongoDb();
+    const collection = db.collection<MongoProfileDocument>('profiles');
+
+    const clean = identifier.trim();
+    const cleanLower = clean.toLowerCase();
+
+    // Match either by uid or by username (case-insensitive)
+    const doc = await collection.findOne({
+      $or: [
+        { uid: clean },
+        { username: cleanLower },
+        { username: clean },
+      ],
+    });
+
+    if (!doc) return null;
+
+    return {
+      uid: doc.uid,
+      username: doc.username,
+      full_name: doc.full_name,
+      headline: doc.headline || '',
+      bio: doc.bio || '',
+      avatar_url: doc.avatar_url || undefined,
+      visibility: doc.visibility || 'public',
+      created_at: doc.created_at,
+      updated_at: doc.updated_at,
+    };
+  } catch (error) {
+    console.error('Error fetching profile from MongoDB:', error);
+    return null;
+  }
+}
+
+export async function updateProfileInMongo(uid: string, updates: Partial<UserProfile>): Promise<UserProfile> {
+  const db = await getMongoDb();
+  const collection = db.collection<MongoProfileDocument>('profiles');
+  const now = new Date().toISOString();
+
+  // If username is being updated, verify availability
+  if (updates.username) {
+    const normalizedUsername = updates.username.toLowerCase().trim();
+    const existing = await collection.findOne({
+      username: normalizedUsername,
+      uid: { $ne: uid },
+    });
+    if (existing) {
+      throw new Error('Username is already taken');
+    }
+  }
+
+  const cleanUpdates: any = { ...updates, updated_at: now };
+  if (cleanUpdates.username) {
+    cleanUpdates.username = cleanUpdates.username.toLowerCase().trim();
+  }
+  if (cleanUpdates.full_name) {
+    cleanUpdates.full_name = cleanUpdates.full_name.trim();
+  }
+  if (cleanUpdates.headline !== undefined) {
+    cleanUpdates.headline = cleanUpdates.headline.trim();
+  }
+  if (cleanUpdates.bio !== undefined) {
+    cleanUpdates.bio = cleanUpdates.bio.trim();
+  }
+  delete cleanUpdates.uid;
+  delete cleanUpdates._id;
+
+  await collection.updateOne(
+    { $or: [{ uid }, { username: uid.toLowerCase().trim() }] },
+    { $set: cleanUpdates, $setOnInsert: { created_at: now, uid } },
+    { upsert: true }
+  );
+
+  const updatedDoc = await collection.findOne({
+    $or: [{ uid }, { username: uid.toLowerCase().trim() }],
+  });
+
+  if (!updatedDoc) {
+    throw new Error('Failed to retrieve updated profile from MongoDB');
+  }
+
+  return {
+    uid: updatedDoc.uid,
+    username: updatedDoc.username,
+    full_name: updatedDoc.full_name,
+    headline: updatedDoc.headline || '',
+    bio: updatedDoc.bio || '',
+    avatar_url: updatedDoc.avatar_url || undefined,
+    visibility: updatedDoc.visibility || 'public',
+    created_at: updatedDoc.created_at,
+    updated_at: updatedDoc.updated_at,
+  };
+}
+
+export async function checkUsernameAvailabilityInMongo(username: string, excludeUid?: string): Promise<boolean> {
+  try {
+    const clean = username.toLowerCase().trim();
+    if (clean.length < 3) return false;
+
+    const db = await getMongoDb();
+    const collection = db.collection<MongoProfileDocument>('profiles');
+
+    const query: any = { username: clean };
+    if (excludeUid) {
+      query.uid = { $ne: excludeUid };
+    }
+
+    const existing = await collection.findOne(query);
+    return !existing;
+  } catch (err) {
+    console.warn('Error checking username in MongoDB:', err);
+    return true;
+  }
 }
 

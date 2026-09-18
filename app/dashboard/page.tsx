@@ -172,7 +172,12 @@ export default function DashboardPage() {
   };
 
   const handleSaveCert = async (certData: Partial<Certificate>) => {
-    const userUid = profile?.uid || user?.uid || (activeUsername ? `uid-${activeUsername}` : 'demo-user');
+    // Always prefer real Firebase Auth UID for consistent profile_id
+    const userUid = profile?.uid || user?.uid;
+    if (!userUid) {
+      alert('You must be logged in to save certificates.');
+      return;
+    }
 
     if (editingCert) {
       try {
@@ -301,6 +306,12 @@ export default function DashboardPage() {
                     <ExternalLink className="w-3.5 h-3.5 text-[#BFDBF7]" />
                   </Link>
                 </div>
+
+                {profile?.bio && (
+                  <p className="mt-2.5 text-slate-600 text-xs sm:text-sm font-medium leading-relaxed max-w-2xl bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
+                    {profile.bio}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -526,6 +537,9 @@ export default function DashboardPage() {
         onClose={() => setIsEditProfileOpen(false)}
         onSave={async (updates) => {
           await updateProfile(updates);
+          if (updates.visibility) {
+            setVisibility(updates.visibility);
+          }
         }}
       />
 

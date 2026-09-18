@@ -43,10 +43,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const defaultName = formatDisplayName(currentUser.displayName, currentUser.email);
     const defaultUsername = (currentUser.email?.split('@')[0] || 'user').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
+    // 1. Instant optimistic restore from localStorage cache
+    try {
+      const cached = localStorage.getItem(`credfolio_profile_${uid}`);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.uid === uid) {
+          setProfile(parsed);
+        }
+      }
+    } catch {}
+
     try {
       const userProf = await api.getProfileByUid(uid);
       if (userProf && userProf.full_name && userProf.full_name.toLowerCase() !== 'user profile') {
         setProfile(userProf);
+        try {
+          localStorage.setItem(`credfolio_profile_${uid}`, JSON.stringify(userProf));
+          if (userProf.username) {
+            localStorage.setItem(`credfolio_profile_${userProf.username}`, JSON.stringify(userProf));
+          }
+        } catch {}
       } else {
         const newProfData: Partial<UserProfile> & { uid: string; username: string; full_name: string } = {
           uid: uid,
@@ -59,34 +76,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         try {
           const created = await api.createProfile(newProfData);
-          setProfile(created || {
+          const finalProfile = created || {
             ...newProfData,
             visibility: 'public' as ProfileVisibility,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
-          });
+          };
+          setProfile(finalProfile);
+          try {
+            localStorage.setItem(`credfolio_profile_${uid}`, JSON.stringify(finalProfile));
+          } catch {}
         } catch {
-          setProfile({
+          const fallbackProfile = {
             ...newProfData,
             visibility: 'public' as ProfileVisibility,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
-          });
+          };
+          setProfile(fallbackProfile);
+          try {
+            localStorage.setItem(`credfolio_profile_${uid}`, JSON.stringify(fallbackProfile));
+          } catch {}
         }
       }
     } catch (error) {
       console.warn('Could not fetch user profile from API, using auth fallback:', error);
-      setProfile({
-        uid: uid,
-        username: defaultUsername,
-        full_name: defaultName,
-        headline: 'Credential Showcase',
-        bio: '',
-        avatar_url: currentUser.photoURL || undefined,
-        visibility: 'public' as ProfileVisibility,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
     }
   };
 
@@ -142,20 +156,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
+    const uid = profile?.uid || user?.uid;
+    if (!uid) {
+      throw new Error('You must be logged in to update your profile.');
+    }
+
+    // Optimistic local state update
     setProfile((prev) => (prev ? { ...prev, ...updates } : null));
 
-    if (profile?.uid || user?.uid) {
-      const uid = profile?.uid || user?.uid;
-      if (uid) {
-        try {
-          const updated = await api.updateProfile(uid, updates);
-          if (updated) {
-            setProfile((prev) => (prev ? { ...prev, ...updated } : updated));
-          }
-        } catch (err) {
-          console.warn('Backend update failed, retaining optimistic profile update:', err);
-        }
+    // Optimistic cache update
+    try {
+      if (profile) {
+        localStorage.setItem(`credfolio_profile_${uid}`, JSON.stringify({ ...profile, ...updates }));
       }
+    } catch {}
+
+    try {
+      const updated = await api.updateProfile(uid, updates);
+      if (updated) {
+        setProfile(updated);
+        try {
+          localStorage.setItem(`credfolio_profile_${uid}`, JSON.stringify(updated));
+          if (updated.username) {
+            localStorage.setItem(`credfolio_profile_${updated.username}`, JSON.stringify(updated));
+          }
+        } catch {}
+      }
+    } catch (err) {
+      console.error('Backend profile update failed:', err);
+      throw err;
     }
   };
 

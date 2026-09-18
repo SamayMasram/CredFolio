@@ -9,26 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        primary: '#22577A',
+        background: '#C7F9CC',
+        surface: '#80ED99',
+        accent: '#38A3A5',
+        highlight: '#22577A',
         navy: {
-          900: '#022B3A',
-          800: '#063A4E',
+          900: '#22577A',
+          800: '#2D6B8A',
         },
         teal: {
-          600: '#1F7A8C',
-          700: '#175F6D',
-          800: '#124853',
+          600: '#38A3A5',
+          700: '#2E8B8D',
+          800: '#257375',
         },
         ice: {
-          100: '#E1E5F2',
-          200: '#BFDBF7',
-          300: '#A4CEF4',
+          100: '#C7F9CC',
+          200: '#80ED99',
+          300: '#57CC99',
         },
         brand: {
-          navy: '#022B3A',
-          teal: '#1F7A8C',
-          tealHover: '#175F6D',
-          ice: '#BFDBF7',
-          light: '#E1E5F2',
+          navy: '#22577A',
+          teal: '#38A3A5',
+          tealHover: '#2E8B8D',
+          ice: '#80ED99',
+          light: '#C7F9CC',
         },
       },
     },
@@ -36,4 +41,3 @@ const config: Config = {
   plugins: [],
 };
 export default config;
-

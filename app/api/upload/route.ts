@@ -3,8 +3,8 @@ import { storeMediaFile } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
 
-// Max file size: 16MB (MongoDB single document limit)
-const MAX_FILE_SIZE = 16 * 1024 * 1024;
+// Max file size: 14MB (MongoDB BSON document limit is 16MB; leaving room for metadata overhead)
+const MAX_FILE_SIZE = 14 * 1024 * 1024;
 
 const ALLOWED_MIME_TYPES = [
   'application/pdf',

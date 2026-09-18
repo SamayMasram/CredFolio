@@ -15,8 +15,8 @@ export async function GET(
 
     const fileRecord = await getMediaFileById(fileId);
 
-    if (!fileRecord) {
-      return NextResponse.json({ error: 'File not found' }, { status: 404 });
+    if (!fileRecord || !fileRecord.buffer || fileRecord.buffer.length === 0) {
+      return NextResponse.json({ error: 'File not found or is empty' }, { status: 404 });
     }
 
     // Set appropriate streaming headers
@@ -25,6 +25,7 @@ export async function GET(
     headers.set('Content-Length', fileRecord.buffer.length.toString());
     headers.set('Cache-Control', 'public, max-age=31536000, immutable');
     headers.set('Content-Disposition', `inline; filename="${encodeURIComponent(fileRecord.filename)}"`);
+    headers.set('Access-Control-Allow-Origin', '*');
 
     return new NextResponse(new Uint8Array(fileRecord.buffer), {
       status: 200,

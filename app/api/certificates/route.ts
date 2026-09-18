@@ -106,24 +106,33 @@ export async function POST(request: NextRequest) {
 
     let createdCert: Certificate;
 
-    // Save to MongoDB
+    // Save to MongoDB (primary storage)
     try {
       createdCert = await storeCertificateInMongo(certPayload);
     } catch (mongoErr) {
-      console.warn('Failed to store certificate in MongoDB:', mongoErr);
+      console.warn('Failed to store certificate in MongoDB, falling back to Firestore only:', mongoErr);
+      // Fall back to Firestore-only storage
       const newCertRef = adminDb.collection('certificates').doc();
-      createdCert = { id: newCertRef.id, ...certPayload } as Certificate;
+      const firestoreCert = { id: newCertRef.id, ...certPayload };
+      await newCertRef.set(firestoreCert);
+      createdCert = firestoreCert as Certificate;
+
+      return NextResponse.json({
+        success: true,
+        certificate: createdCert,
+      });
     }
 
-    // Also sync to Firestore
+    // Also sync to Firestore (best-effort backup)
     try {
       const docRef = adminDb.collection('certificates').doc(createdCert.id);
-      await docRef.set({
-        ...certPayload,
-        id: createdCert.id,
-      });
+      // Strip any MongoDB-specific fields before writing to Firestore
+      const firestorePayload: Record<string, any> = { ...certPayload, id: createdCert.id };
+      delete firestorePayload._id;
+      await docRef.set(firestorePayload);
     } catch (fsErr) {
-      console.warn('Failed to sync certificate to Firestore:', fsErr);
+      // Firestore sync failed, but MongoDB storage succeeded — cert is still saved
+      console.warn('Failed to sync certificate to Firestore (MongoDB copy exists):', fsErr);
     }
 
     return NextResponse.json({

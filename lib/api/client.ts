@@ -28,11 +28,13 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
 
 export const api = {
   // Username Availability
-  async checkUsernameAvailability(username: string): Promise<boolean> {
+  async checkUsernameAvailability(username: string, excludeUid?: string): Promise<boolean> {
     try {
-      const res = await apiFetch<{ available: boolean }>(
-        `/api/usernames/check?username=${encodeURIComponent(username)}`
-      );
+      let url = `/api/usernames/check?username=${encodeURIComponent(username)}`;
+      if (excludeUid) {
+        url += `&uid=${encodeURIComponent(excludeUid)}`;
+      }
+      const res = await apiFetch<{ available: boolean }>(url);
       return res.available;
     } catch {
       return true; // Fallback for local demo

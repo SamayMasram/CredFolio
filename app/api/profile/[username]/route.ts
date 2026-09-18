@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 import { UserProfile, Certificate } from '@/types';
-import { getCertificatesFromMongo } from '@/lib/mongodb';
+import { getCertificatesFromMongo, getProfileFromMongo, storeProfileInMongo } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,24 +15,36 @@ export async function GET(
     let uid = `uid-${normalizedUsername}`;
     let profile: UserProfile | null = null;
 
-    // 1. Look up username doc pointer in Firestore
+    // 1. Look up profile directly in MongoDB (primary storage)
     try {
-      const usernameSnap = await adminDb.collection('usernames').doc(normalizedUsername).get();
-      if (usernameSnap.exists) {
-        uid = (usernameSnap.data() as { uid: string }).uid;
+      const mongoProfile = await getProfileFromMongo(normalizedUsername);
+      if (mongoProfile) {
+        profile = mongoProfile;
+        uid = mongoProfile.uid;
       }
-    } catch (fsErr) {
-      console.warn('Firestore username lookup warning:', fsErr);
+    } catch (mongoErr) {
+      console.warn('MongoDB profile lookup warning in public route:', mongoErr);
     }
 
-    // 2. Look up profile doc
-    try {
-      const profileSnap = await adminDb.collection('profiles').doc(uid).get();
-      if (profileSnap.exists) {
-        profile = profileSnap.data() as UserProfile;
+    // 2. Fallback: Look up username doc pointer and profile in Firestore
+    if (!profile) {
+      try {
+        const usernameSnap = await adminDb.collection('usernames').doc(normalizedUsername).get();
+        if (usernameSnap.exists) {
+          uid = (usernameSnap.data() as { uid: string }).uid;
+        }
+
+        const profileSnap = await adminDb.collection('profiles').doc(uid).get();
+        if (profileSnap.exists) {
+          profile = profileSnap.data() as UserProfile;
+          // Cache into MongoDB
+          try {
+            await storeProfileInMongo(profile);
+          } catch {}
+        }
+      } catch (fsErr) {
+        console.warn('Firestore fallback lookup warning:', fsErr);
       }
-    } catch (fsErr) {
-      console.warn('Firestore profile lookup warning:', fsErr);
     }
 
     if (!profile) {

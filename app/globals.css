@@ -5,24 +5,24 @@
 @tailwind utilities;
 
 :root {
-  --navy: #022B3A;
-  --teal: #1F7A8C;
-  --ice: #BFDBF7;
-  --periwinkle: #E1E5F2;
-  --white: #FFFFFF;
+  --primary: #22577A;
+  --background: #C7F9CC;
+  --surface: #80ED99;
+  --accent: #38A3A5;
+  --highlight: #22577A;
 }
 
 body {
-  color: #022B3A;
-  background-color: #F8FAFC;
+  color: var(--primary);
+  background-color: #F8FAF9;
   min-height: 100vh;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background-color: #BFDBF7;
-  color: #022B3A;
+  background-color: #80ED99;
+  color: #22577A;
 }
 
 /* Custom scrollbar */
@@ -31,13 +31,12 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #E1E5F2;
+  background: #C7F9CC;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1F7A8C;
+  background: #38A3A5;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #175F6D;
+  background: #22577A;
 }
-
