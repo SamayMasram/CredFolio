@@ -131,20 +131,20 @@ export function AddCertificateModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#022B3A]/70 backdrop-blur-sm animate-in fade-in duration-200">
-        <div className="bg-white border-2 border-[#022B3A] rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#134611]/70 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="bg-white border-2 border-[#134611] rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-[#022B3A] rounded-full transition-colors"
+            className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-[#134611] rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2.5 mb-6">
-            <div className="bg-[#022B3A] text-[#BFDBF7] p-2.5 rounded-xl border border-[#022B3A] font-bold">
-              <Award className="w-5 h-5 text-[#BFDBF7]" />
+            <div className="bg-[#134611] text-[#E8FCCF] p-2.5 rounded-xl border border-[#134611] font-bold">
+              <Award className="w-5 h-5 text-[#E8FCCF]" />
             </div>
-            <h3 className="text-xl font-black text-[#022B3A]">
+            <h3 className="text-xl font-black text-[#134611]">
               {initialData ? 'Edit Credential' : 'Add New Credential'}
             </h3>
           </div>
@@ -274,7 +274,7 @@ export function AddCertificateModal({
                     <button
                       type="button"
                       onClick={() => setIsPreviewOpen(true)}
-                      className="text-[11px] font-black text-slate-950 bg-[#7ae582] hover:bg-[#6bd473] px-2.5 py-0.5 rounded border border-slate-900 flex items-center gap-1 shadow-xs transition-colors"
+                      className="text-[11px] font-black text-slate-950 bg-[#96E072] hover:bg-[#3DA35D] px-2.5 py-0.5 rounded border border-slate-900 flex items-center gap-1 shadow-xs transition-colors"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>{media.isPdf ? 'View PDF' : 'View Image'}</span>
@@ -408,7 +408,7 @@ export function AddCertificateModal({
                 <button
                   type="button"
                   onClick={() => setIsPreviewOpen(true)}
-                  className="px-3 py-1.5 text-xs font-bold text-slate-950 bg-[#7ae582] hover:bg-[#6bd473] border border-slate-900 rounded-lg transition-colors shrink-0 shadow-xs flex items-center gap-1"
+                  className="px-3 py-1.5 text-xs font-bold text-slate-950 bg-[#96E072] hover:bg-[#3DA35D] border border-slate-900 rounded-lg transition-colors shrink-0 shadow-xs flex items-center gap-1"
                 >
                   <Eye className="w-3.5 h-3.5 text-slate-950" />
                   <span>View</span>
@@ -420,14 +420,14 @@ export function AddCertificateModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 bg-[#E1E5F2] hover:bg-[#BFDBF7]/60 text-[#022B3A] font-bold text-sm py-3 rounded-xl transition-colors"
+                className="flex-1 bg-[#E8FCCF] hover:bg-[#E8FCCF]/60 text-[#134611] font-bold text-sm py-3 rounded-xl transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-black text-sm py-3 rounded-xl border border-[#1F7A8C] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                className="flex-1 bg-[#3E8914] hover:bg-[#134611] text-white font-black text-sm py-3 rounded-xl border border-[#3E8914] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
               >
                 {saving ? 'Saving...' : initialData ? 'Save Changes' : 'Add Credential'}
               </button>
