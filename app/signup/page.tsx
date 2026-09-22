@@ -87,16 +87,16 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8FCCF] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#D8F3DC] flex flex-col font-sans">
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center p-4">
-        <div className="bg-white border-2 border-[#134611] rounded-3xl p-6 sm:p-10 max-w-md w-full shadow-2xl my-8">
+        <div className="bg-white border-2 border-[#1B4332] rounded-3xl p-6 sm:p-10 max-w-md w-full shadow-2xl my-8">
           <div className="text-center mb-8">
-            <div className="w-12 h-12 bg-[#134611] text-[#E8FCCF] rounded-2xl flex items-center justify-center mx-auto mb-3 border border-[#134611] shadow-sm">
-              <Award className="w-6 h-6 text-[#E8FCCF]" />
+            <div className="w-12 h-12 bg-[#1B4332] text-[#D8F3DC] rounded-2xl flex items-center justify-center mx-auto mb-3 border border-[#1B4332] shadow-sm">
+              <Award className="w-6 h-6 text-[#D8F3DC]" />
             </div>
-            <h1 className="text-2xl font-black text-[#134611]">Create Your CredFolio</h1>
+            <h1 className="text-2xl font-black text-[#1B4332]">Create Your CredFolio</h1>
             <p className="text-slate-500 text-xs mt-1 font-medium">
               Build your public credential showcase page in 2 minutes.
             </p>
@@ -111,7 +111,7 @@ export default function SignupPage() {
 
           <form onSubmit={handleSignup} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-[#134611] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Full Name *
               </label>
               <input
@@ -120,12 +120,12 @@ export default function SignupPage() {
                 placeholder="Jane Doe"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8FCCF] focus:border-[#134611] outline-none text-sm text-[#134611] font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#134611] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Choose Username *
               </label>
               <div className="relative">
@@ -135,7 +135,7 @@ export default function SignupPage() {
                   placeholder="janedoe"
                   value={username}
                   onChange={(e) => handleUsernameChange(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8FCCF] focus:border-[#134611] outline-none text-sm text-[#134611] font-mono font-bold lowercase"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-mono font-bold lowercase"
                 />
                 {usernameAvailable === true && (
                   <span className="absolute right-3 top-3 text-xs text-emerald-600 font-bold flex items-center gap-1">
@@ -148,13 +148,13 @@ export default function SignupPage() {
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-[#3E8914] mt-1 font-mono font-bold">
+              <p className="text-[11px] text-[#40916C] mt-1 font-mono font-bold">
                 Your link: credfolio.app/{username || 'username'}
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#134611] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Headline / Title
               </label>
               <input
@@ -162,12 +162,12 @@ export default function SignupPage() {
                 placeholder="e.g. Senior Cloud Engineer"
                 value={headline}
                 onChange={(e) => setHeadline(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8FCCF] focus:border-[#134611] outline-none text-sm text-[#134611] font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#134611] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Email Address *
               </label>
               <input
@@ -176,12 +176,12 @@ export default function SignupPage() {
                 placeholder="jane@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8FCCF] focus:border-[#134611] outline-none text-sm text-[#134611] font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#134611] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Password *
               </label>
               <input
@@ -190,23 +190,23 @@ export default function SignupPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8FCCF] focus:border-[#134611] outline-none text-sm text-[#134611] font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 bg-[#3E8914] hover:bg-[#134611] text-white font-extrabold text-sm py-3 rounded-xl border border-[#3E8914] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full mt-2 bg-[#40916C] hover:bg-[#1B4332] text-white font-extrabold text-sm py-3 rounded-xl border border-[#40916C] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <span>{loading ? 'Creating Account...' : 'Get Your Link'}</span>
-              <ArrowRight className="w-4 h-4 text-[#E8FCCF]" />
+              <ArrowRight className="w-4 h-4 text-[#D8F3DC]" />
             </button>
           </form>
 
           <div className="relative my-6 text-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#E8FCCF]"></div>
+              <div className="w-full border-t border-[#D8F3DC]"></div>
             </div>
             <span className="relative bg-white px-3 text-[11px] uppercase font-bold text-slate-400">
               Or
@@ -222,7 +222,7 @@ export default function SignupPage() {
                 setError(err.message || 'Google sign in failed');
               }
             }}
-            className="w-full bg-white hover:bg-[#E8FCCF]/40 text-[#134611] font-bold text-xs py-3 rounded-xl border border-[#E8FCCF] shadow-sm flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-white hover:bg-[#D8F3DC]/40 text-[#1B4332] font-bold text-xs py-3 rounded-xl border border-[#D8F3DC] shadow-sm flex items-center justify-center gap-2 transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
@@ -247,7 +247,7 @@ export default function SignupPage() {
 
           <p className="text-center text-xs text-slate-500 mt-6">
             Already have an account?{' '}
-            <Link href="/login" className="font-bold text-[#3E8914] hover:underline">
+            <Link href="/login" className="font-bold text-[#40916C] hover:underline">
               Sign In
             </Link>
           </p>

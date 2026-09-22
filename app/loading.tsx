@@ -6,14 +6,14 @@ export default function Loading() {
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans relative overflow-hidden">
       {/* Top Animated Progress Bar */}
       <div className="w-full h-1 bg-slate-200 overflow-hidden">
-        <div className="h-full bg-[#96E072] w-1/3 animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
+        <div className="h-full bg-[#74C69D] w-1/3 animate-[pulse_1.5s_ease-in-out_infinite] transition-all duration-300" />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-4">
         {/* Animated Glowing Badge */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 rounded-3xl bg-[#96E072] blur-xl opacity-60 animate-pulse" />
-          <div className="relative w-20 h-20 bg-slate-900 text-[#96E072] rounded-3xl flex items-center justify-center border-2 border-slate-900 shadow-2xl animate-bounce">
+          <div className="absolute inset-0 rounded-3xl bg-[#74C69D] blur-xl opacity-60 animate-pulse" />
+          <div className="relative w-20 h-20 bg-slate-900 text-[#74C69D] rounded-3xl flex items-center justify-center border-2 border-slate-900 shadow-2xl animate-bounce">
             <Award className="w-10 h-10" />
           </div>
         </div>

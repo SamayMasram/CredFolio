@@ -12,7 +12,7 @@ interface RgbColor {
   blue: number;
 }
 
-const fallbackColor: RgbColor = { red: 61, green: 163, blue: 93 };
+const fallbackColor: RgbColor = { red: 82, green: 183, blue: 136 };
 
 function sampleImageColor(imageUrl: string): Promise<RgbColor | null> {
   return new Promise((resolve) => {
