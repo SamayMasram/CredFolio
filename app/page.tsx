@@ -64,7 +64,7 @@ export default function Home() {
 
         {/* Feature Cards Grid */}
         <section className="py-16 bg-white border-t border-[#E8FCCF]">
-          <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-[#E8FCCF] p-6 rounded-2xl border-2 border-[#E8FCCF] hover:border-[#134611] transition-all shadow-sm group">
               <div className="w-12 h-12 bg-[#134611] rounded-xl flex items-center justify-center text-[#E8FCCF] mb-4 border border-[#134611] shadow-sm">
                 <ShieldCheck className="w-6 h-6 text-[#E8FCCF]" />
@@ -85,15 +85,6 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-[#E8FCCF] p-6 rounded-2xl border-2 border-[#E8FCCF] hover:border-[#134611] transition-all shadow-sm group">
-              <div className="w-12 h-12 bg-[#134611] rounded-xl flex items-center justify-center text-[#E8FCCF] mb-4 border border-[#134611] shadow-sm">
-                <Award className="w-6 h-6 text-[#E8FCCF]" />
-              </div>
-              <h3 className="text-lg font-extrabold text-[#134611] mb-2 group-hover:text-[#3E8914] transition-colors">Firebase Backend</h3>
-              <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                Powered by Firebase Authentication, Cloud Firestore, and Firebase Storage for fast, reliable credential delivery.
-              </p>
-            </div>
           </div>
         </section>
       </main>
