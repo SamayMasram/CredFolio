@@ -6,6 +6,7 @@ import { Navbar } from '@/components/Navbar';
 import { Certificate, UserProfile } from '@/types';
 import { ShieldCheck, UserX, Loader2 } from 'lucide-react';
 import { PublicProfileClient } from './PublicProfileClient';
+import { AmbientTheme } from '@/components/AmbientTheme';
 import { api } from '@/lib/api/client';
 
 interface Props {
@@ -174,6 +175,7 @@ export default function PublicProfilePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+      <AmbientTheme imageUrl={profile.avatar_url} />
       <Navbar />
 
       <main className="flex-1">

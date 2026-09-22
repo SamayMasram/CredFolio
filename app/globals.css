@@ -10,14 +10,43 @@
   --surface: #96E072;
   --accent: #3E8914;
   --highlight: #134611;
+  --ambient-rgb: 61 163 93;
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   color: var(--primary);
   background-color: #E8FCCF;
   min-height: 100vh;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ambient-layer {
+  position: fixed;
+  inset: -12%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-position: center;
+  background-size: cover;
+  filter: blur(44px) saturate(1.25);
+  transform: scale(1.08);
+  transition: opacity 500ms ease, background-image 500ms ease;
+}
+
+.ambient-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgb(var(--ambient-rgb) / 0.28), transparent 56%);
+  mix-blend-mode: multiply;
 }
 
 ::selection {

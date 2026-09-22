@@ -10,6 +10,7 @@ import { AddCertificateModal } from '@/components/AddCertificateModal';
 import { EditProfileModal } from '@/components/EditProfileModal';
 import { ImageViewerModal } from '@/components/ImageViewerModal';
 import { QrCodeModal } from '@/components/QrCodeModal';
+import { AmbientTheme } from '@/components/AmbientTheme';
 import { api } from '@/lib/api/client';
 import { getInitials, formatDisplayName } from '@/lib/utils/format';
 import {
@@ -255,6 +256,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#E8FCCF] flex flex-col">
+      <AmbientTheme imageUrl={profile?.avatar_url} />
       <Navbar />
 
       <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
