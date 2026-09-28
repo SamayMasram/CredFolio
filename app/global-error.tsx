@@ -24,7 +24,7 @@ export default function GlobalError({
 
           <button
             onClick={() => reset()}
-            className="w-full bg-[#74C69D] hover:bg-[#52B788] text-slate-950 font-black text-xs py-3 px-4 rounded-xl border border-slate-900 shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full bg-[#9ef01a] hover:bg-[#38b000] text-slate-950 font-black text-xs py-3 px-4 rounded-xl border border-slate-900 shadow-md transition-all flex items-center justify-center gap-2"
           >
             <RefreshCw className="w-4 h-4 text-slate-950" />
             <span>Reload Application</span>
@@ -34,3 +34,4 @@ export default function GlobalError({
     </html>
   );
 }
+
