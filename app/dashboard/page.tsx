@@ -10,6 +10,7 @@ import { AddCertificateModal } from '@/components/AddCertificateModal';
 import { EditProfileModal } from '@/components/EditProfileModal';
 import { ImageViewerModal } from '@/components/ImageViewerModal';
 import { QrCodeModal } from '@/components/QrCodeModal';
+import { AmbientTheme } from '@/components/AmbientTheme';
 import { api } from '@/lib/api/client';
 import { getInitials, formatDisplayName } from '@/lib/utils/format';
 import {
@@ -100,7 +101,7 @@ export default function DashboardPage() {
         <Navbar />
         {/* Animated Progress Line */}
         <div className="w-full h-1 bg-slate-200 overflow-hidden">
-          <div className="h-full bg-[#7ae582] w-1/3 animate-[pulse_1.5s_ease-in-out_infinite]" />
+          <div className="h-full bg-[#74C69D] w-1/3 animate-[pulse_1.5s_ease-in-out_infinite]" />
         </div>
 
         <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full animate-pulse">
@@ -118,7 +119,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <div className="h-9 bg-slate-200 rounded-xl w-32" />
                 <div className="h-9 bg-slate-200 rounded-xl w-24" />
-                <div className="h-9 bg-[#7ae582]/40 rounded-xl w-32" />
+                <div className="h-9 bg-[#74C69D]/40 rounded-xl w-32" />
               </div>
             </div>
           </div>
@@ -126,7 +127,7 @@ export default function DashboardPage() {
           {/* Skeleton Certificates Header */}
           <div className="flex justify-between items-center mb-6">
             <div className="h-6 bg-slate-200 rounded-lg w-56" />
-            <div className="h-9 bg-[#7ae582]/40 rounded-xl w-36" />
+            <div className="h-9 bg-[#74C69D]/40 rounded-xl w-36" />
           </div>
 
           {/* Skeleton Items */}
@@ -254,12 +255,13 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
+    <div className="min-h-screen bg-[#D8F3DC] flex flex-col">
+      <AmbientTheme imageUrl={profile?.avatar_url} />
       <Navbar />
 
       <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
         {/* Top Control Header */}
-        <div className="bg-white border-2 border-[#022B3A] rounded-3xl p-6 sm:p-8 shadow-xl mb-8">
+        <div className="bg-white border-2 border-[#1B4332] rounded-3xl p-6 sm:p-8 shadow-xl mb-8">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               {profile?.avatar_url && !avatarError ? (
@@ -268,42 +270,42 @@ export default function DashboardPage() {
                   src={profile.avatar_url}
                   alt={displayName}
                   onError={() => setAvatarError(true)}
-                  className="w-16 h-16 rounded-2xl object-cover border-2 border-[#022B3A] shadow-md shrink-0 bg-white"
+                  className="w-16 h-16 rounded-2xl object-cover border-2 border-[#1B4332] shadow-md shrink-0 bg-white"
                 />
               ) : (
-                <div className="w-16 h-16 rounded-2xl bg-[#022B3A] text-[#BFDBF7] flex items-center justify-center font-black text-2xl shadow-md border border-[#022B3A] shrink-0">
+                <div className="w-16 h-16 rounded-2xl bg-[#1B4332] text-[#D8F3DC] flex items-center justify-center font-black text-2xl shadow-md border border-[#1B4332] shrink-0">
                   {initials}
                 </div>
               )}
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-2xl font-black text-[#022B3A]">
+                  <h1 className="text-2xl font-black text-[#1B4332]">
                     {displayName}
                   </h1>
                   <button
                     onClick={() => setIsEditProfileOpen(true)}
-                    className="p-1.5 text-[#022B3A] hover:text-white bg-[#E1E5F2] hover:bg-[#1F7A8C] border border-[#022B3A]/30 rounded-lg transition-all text-xs font-extrabold flex items-center gap-1 shadow-xs ml-1"
+                    className="p-1.5 text-[#1B4332] hover:text-white bg-[#D8F3DC] hover:bg-[#40916C] border border-[#1B4332]/30 rounded-lg transition-all text-xs font-extrabold flex items-center gap-1 shadow-xs ml-1"
                     title="Edit Profile & Photo"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                     <span>Edit Profile</span>
                   </button>
                 </div>
-                <p className="text-[#1F7A8C] text-sm font-semibold mt-0.5">
+                <p className="text-[#40916C] text-sm font-semibold mt-0.5">
                   {profile?.headline || 'Credential Showcase'}
                 </p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#022B3A] bg-[#E1E5F2] px-2.5 py-1 rounded-lg border border-[#E1E5F2]">
+                  <span className="text-xs font-mono font-bold text-[#1B4332] bg-[#D8F3DC] px-2.5 py-1 rounded-lg border border-[#D8F3DC]">
                     {profileUrl}
                   </span>
                   <Link
                     href={`/${activeUsername}`}
                     target="_blank"
-                    className="text-xs font-black text-white bg-[#1F7A8C] hover:bg-[#175F6D] px-3.5 py-1 rounded-lg border border-[#1F7A8C] flex items-center gap-1 shadow-xs transition-all hover:scale-105"
+                    className="text-xs font-black text-white bg-[#40916C] hover:bg-[#1B4332] px-3.5 py-1 rounded-lg border border-[#40916C] flex items-center gap-1 shadow-xs transition-all hover:scale-105"
                     title="View public profile page"
                   >
                     <span>View Public Showcase</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[#BFDBF7]" />
+                    <ExternalLink className="w-3.5 h-3.5 text-[#D8F3DC]" />
                   </Link>
                 </div>
 
@@ -318,13 +320,13 @@ export default function DashboardPage() {
             {/* Share & Controls Bar */}
             <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
               {/* Visibility Selector */}
-              <div className="bg-[#E1E5F2]/60 p-1 rounded-xl border border-[#E1E5F2] flex items-center gap-1 text-xs font-bold">
+              <div className="bg-[#D8F3DC]/60 p-1 rounded-xl border border-[#D8F3DC] flex items-center gap-1 text-xs font-bold">
                 <button
                   onClick={() => handleVisibilityChange('public')}
                   className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
                     visibility === 'public'
-                      ? 'bg-[#1F7A8C] text-white font-black shadow-xs'
-                      : 'text-slate-600 hover:text-[#022B3A]'
+                      ? 'bg-[#40916C] text-white font-black shadow-xs'
+                      : 'text-slate-600 hover:text-[#1B4332]'
                   }`}
                 >
                   <Globe className="w-3.5 h-3.5" />
@@ -335,8 +337,8 @@ export default function DashboardPage() {
                   onClick={() => handleVisibilityChange('unlisted')}
                   className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
                     visibility === 'unlisted'
-                      ? 'bg-[#1F7A8C] text-white font-black shadow-xs'
-                      : 'text-slate-600 hover:text-[#022B3A]'
+                      ? 'bg-[#40916C] text-white font-black shadow-xs'
+                      : 'text-slate-600 hover:text-[#1B4332]'
                   }`}
                 >
                   <EyeOff className="w-3.5 h-3.5" />
@@ -347,8 +349,8 @@ export default function DashboardPage() {
                   onClick={() => handleVisibilityChange('private')}
                   className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
                     visibility === 'private'
-                      ? 'bg-[#022B3A] text-white font-black shadow-xs'
-                      : 'text-slate-600 hover:text-[#022B3A]'
+                      ? 'bg-[#1B4332] text-white font-black shadow-xs'
+                      : 'text-slate-600 hover:text-[#1B4332]'
                   }`}
                 >
                   <Lock className="w-3.5 h-3.5" />
@@ -359,7 +361,7 @@ export default function DashboardPage() {
               {/* QR Code Trigger */}
               <button
                 onClick={() => setIsQrModalOpen(true)}
-                className="bg-white border-2 border-[#022B3A] hover:bg-[#022B3A] hover:text-white text-[#022B3A] font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors shadow-sm"
+                className="bg-white border-2 border-[#1B4332] hover:bg-[#1B4332] hover:text-white text-[#1B4332] font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors shadow-sm"
               >
                 <QrCode className="w-4 h-4" />
                 <span>QR Code</span>
@@ -368,16 +370,16 @@ export default function DashboardPage() {
               {/* Copy Link Button */}
               <button
                 onClick={handleCopyLink}
-                className="bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-extrabold text-xs px-4 py-2 rounded-xl border border-[#1F7A8C] flex items-center gap-1.5 shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="bg-[#40916C] hover:bg-[#1B4332] text-white font-extrabold text-xs px-4 py-2 rounded-xl border border-[#40916C] flex items-center gap-1.5 shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4 text-[#BFDBF7]" />
+                    <Check className="w-4 h-4 text-[#D8F3DC]" />
                     <span>Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Share2 className="w-4 h-4 text-[#BFDBF7]" />
+                    <Share2 className="w-4 h-4 text-[#D8F3DC]" />
                     <span>Copy My Link</span>
                   </>
                 )}
@@ -389,8 +391,8 @@ export default function DashboardPage() {
         {/* Certificates Management Section */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-black text-[#022B3A] flex items-center gap-2">
-              <Award className="w-5 h-5 text-[#1F7A8C]" />
+            <h2 className="text-xl font-black text-[#1B4332] flex items-center gap-2">
+              <Award className="w-5 h-5 text-[#40916C]" />
               <span>Your Certificates & Badges</span>
             </h2>
             <p className="text-slate-500 text-xs mt-0.5 font-medium">
@@ -403,26 +405,26 @@ export default function DashboardPage() {
               setEditingCert(null);
               setIsAddModalOpen(true);
             }}
-            className="bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-black text-xs px-4 py-2.5 rounded-xl border border-[#1F7A8C] flex items-center gap-1.5 shadow-md transition-all hover:scale-105 active:scale-95"
+            className="bg-[#40916C] hover:bg-[#1B4332] text-white font-black text-xs px-4 py-2.5 rounded-xl border border-[#40916C] flex items-center gap-1.5 shadow-md transition-all hover:scale-105 active:scale-95"
           >
-            <Plus className="w-4 h-4 text-[#BFDBF7]" />
+            <Plus className="w-4 h-4 text-[#D8F3DC]" />
             <span>Add Credential</span>
           </button>
         </div>
 
         {/* Certificate List */}
         {certificates.length === 0 ? (
-          <div className="bg-white border-2 border-[#E1E5F2] rounded-3xl p-12 text-center shadow-sm">
-            <div className="w-16 h-16 bg-[#BFDBF7]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#1F7A8C]">
-              <Award className="w-8 h-8 text-[#022B3A]" />
+          <div className="bg-white border-2 border-[#D8F3DC] rounded-3xl p-12 text-center shadow-sm">
+            <div className="w-16 h-16 bg-[#D8F3DC]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#40916C]">
+              <Award className="w-8 h-8 text-[#1B4332]" />
             </div>
-            <h3 className="text-lg font-bold text-[#022B3A]">No certificates added yet</h3>
+            <h3 className="text-lg font-bold text-[#1B4332]">No certificates added yet</h3>
             <p className="text-slate-500 text-xs max-w-sm mx-auto mt-1 mb-6">
               Start building your shareable link by adding your AWS, Google, Coursera, or university certificates.
             </p>
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-black text-xs px-5 py-2.5 rounded-xl border border-[#1F7A8C] shadow-md"
+              className="bg-[#40916C] hover:bg-[#1B4332] text-white font-black text-xs px-5 py-2.5 rounded-xl border border-[#40916C] shadow-md"
             >
               Add Your First Certificate
             </button>
@@ -432,7 +434,7 @@ export default function DashboardPage() {
             {certificates.map((cert, index) => (
               <div
                 key={cert.id}
-                className="bg-white border-2 border-[#E1E5F2] hover:border-[#022B3A] rounded-2xl p-5 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
+                className="bg-white border-2 border-[#D8F3DC] hover:border-[#1B4332] rounded-2xl p-5 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
               >
                 <div className="flex items-start gap-4">
                   {/* Reorder buttons */}
@@ -440,7 +442,7 @@ export default function DashboardPage() {
                     <button
                       onClick={() => handleMove(index, 'up')}
                       disabled={index === 0}
-                      className="hover:text-[#022B3A] disabled:opacity-20 transition-colors"
+                      className="hover:text-[#1B4332] disabled:opacity-20 transition-colors"
                       title="Move up"
                     >
                       <ArrowUp className="w-4 h-4" />
@@ -448,7 +450,7 @@ export default function DashboardPage() {
                     <button
                       onClick={() => handleMove(index, 'down')}
                       disabled={index === certificates.length - 1}
-                      className="hover:text-[#022B3A] disabled:opacity-20 transition-colors"
+                      className="hover:text-[#1B4332] disabled:opacity-20 transition-colors"
                       title="Move down"
                     >
                       <ArrowDown className="w-4 h-4" />
@@ -457,17 +459,17 @@ export default function DashboardPage() {
 
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-[#BFDBF7] text-[#022B3A] px-2.5 py-0.5 rounded-md border border-[#1F7A8C]/30">
+                      <span className="text-[10px] font-black uppercase tracking-wider bg-[#D8F3DC] text-[#1B4332] px-2.5 py-0.5 rounded-md border border-[#40916C]/30">
                         {cert.category || 'Credential'}
                       </span>
                       {cert.type === 'badge' && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider bg-[#E1E5F2] text-[#022B3A] px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-[#D8F3DC] text-[#1B4332] px-2 py-0.5 rounded">
                           Badge
                         </span>
                       )}
                     </div>
-                    <h3 className="font-extrabold text-[#022B3A] text-base">{cert.title}</h3>
-                    <p className="text-[#1F7A8C] text-xs font-semibold">{cert.issuer}</p>
+                    <h3 className="font-extrabold text-[#1B4332] text-base">{cert.title}</h3>
+                    <p className="text-[#40916C] text-xs font-semibold">{cert.issuer}</p>
                     <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-500 font-mono mt-2">
                       <span>Issued: {cert.issue_date}</span>
                       {cert.credential_url && (
@@ -475,7 +477,7 @@ export default function DashboardPage() {
                           href={cert.credential_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#1F7A8C] font-bold hover:underline flex items-center gap-1"
+                          className="text-[#40916C] font-bold hover:underline flex items-center gap-1"
                         >
                           <span>Verification Link</span>
                           <ExternalLink className="w-3 h-3" />
@@ -490,10 +492,10 @@ export default function DashboardPage() {
                   {cert.file_url && (
                     <button
                       onClick={() => setViewingImage({ url: cert.file_url!, title: cert.title })}
-                      className="p-2 text-[#022B3A] bg-[#BFDBF7]/60 hover:bg-[#BFDBF7] border border-[#1F7A8C]/40 rounded-xl transition-all font-bold flex items-center gap-1.5 text-xs shadow-xs"
+                      className="p-2 text-[#1B4332] bg-[#D8F3DC]/60 hover:bg-[#D8F3DC] border border-[#40916C]/40 rounded-xl transition-all font-bold flex items-center gap-1.5 text-xs shadow-xs"
                       title="View Certificate Image"
                     >
-                      <Eye className="w-4 h-4 text-[#022B3A]" />
+                      <Eye className="w-4 h-4 text-[#1B4332]" />
                       <span className="hidden sm:inline font-black">View</span>
                     </button>
                   )}
@@ -502,7 +504,7 @@ export default function DashboardPage() {
                       setEditingCert(cert);
                       setIsAddModalOpen(true);
                     }}
-                    className="p-2 text-[#022B3A] hover:bg-[#E1E5F2] bg-slate-50 rounded-xl transition-colors"
+                    className="p-2 text-[#1B4332] hover:bg-[#D8F3DC] bg-slate-50 rounded-xl transition-colors"
                     title="Edit"
                   >
                     <Edit2 className="w-4 h-4" />

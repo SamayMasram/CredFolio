@@ -50,8 +50,8 @@ export function PublicProfileClient({ profile, certificates }: Props) {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       {/* Profile Header Card */}
-      <div className="bg-white border-2 border-[#022B3A] rounded-3xl p-6 sm:p-8 shadow-xl mb-10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-[#E1E5F2]">
+      <div className="bg-white border-2 border-[#1B4332] rounded-3xl p-6 sm:p-8 shadow-xl mb-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-[#D8F3DC]">
           <div className="flex items-center gap-5">
             {profile.avatar_url && !avatarError ? (
               <img
@@ -59,19 +59,19 @@ export function PublicProfileClient({ profile, certificates }: Props) {
                 src={profile.avatar_url}
                 alt={profile.full_name}
                 onError={() => setAvatarError(true)}
-                className="w-20 h-20 rounded-2xl object-cover border-2 border-[#022B3A] shadow-md shrink-0 bg-white"
+                className="w-20 h-20 rounded-2xl object-cover border-2 border-[#1B4332] shadow-md shrink-0 bg-white"
               />
             ) : (
-              <div className="w-20 h-20 rounded-2xl bg-[#022B3A] text-[#BFDBF7] flex items-center justify-center font-black text-3xl shadow-md border border-[#022B3A] shrink-0">
+              <div className="w-20 h-20 rounded-2xl bg-[#1B4332] text-[#D8F3DC] flex items-center justify-center font-black text-3xl shadow-md border border-[#1B4332] shrink-0">
                 {getInitials(profile.full_name)}
               </div>
             )}
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl sm:text-3xl font-black text-[#022B3A]">{profile.full_name}</h1>
-                <CheckCircle2 className="w-6 h-6 text-[#1F7A8C] fill-[#BFDBF7]" />
+                <h1 className="text-2xl sm:text-3xl font-black text-[#1B4332]">{profile.full_name}</h1>
+                <CheckCircle2 className="w-6 h-6 text-[#40916C] fill-[#D8F3DC]" />
               </div>
-              <p className="text-[#1F7A8C] font-bold text-sm sm:text-base mt-0.5">{profile.headline}</p>
+              <p className="text-[#40916C] font-bold text-sm sm:text-base mt-0.5">{profile.headline}</p>
               <p className="text-slate-500 text-xs font-mono mt-1">credfolio.app/{profile.username}</p>
             </div>
           </div>
@@ -79,23 +79,23 @@ export function PublicProfileClient({ profile, certificates }: Props) {
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={() => setIsQrModalOpen(true)}
-              className="flex-1 sm:flex-initial bg-white border-2 border-[#022B3A] hover:bg-[#022B3A] hover:text-white text-[#022B3A] text-xs px-3.5 py-2 rounded-xl flex items-center justify-center gap-2 font-mono font-bold transition-colors shadow-xs"
+              className="flex-1 sm:flex-initial bg-white border-2 border-[#1B4332] hover:bg-[#1B4332] hover:text-white text-[#1B4332] text-xs px-3.5 py-2 rounded-xl flex items-center justify-center gap-2 font-mono font-bold transition-colors shadow-xs"
             >
-              <QrCode className="w-4 h-4 text-[#022B3A] group-hover:text-white" />
+              <QrCode className="w-4 h-4 text-[#1B4332] group-hover:text-white" />
               <span>QR Code</span>
             </button>
             <button
               onClick={handleCopyLink}
-              className="flex-1 sm:flex-initial bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-black text-xs px-4 py-2 rounded-xl border border-[#1F7A8C] flex items-center justify-center gap-1.5 shadow-sm transition-all"
+              className="flex-1 sm:flex-initial bg-[#40916C] hover:bg-[#1B4332] text-white font-black text-xs px-4 py-2 rounded-xl border border-[#40916C] flex items-center justify-center gap-1.5 shadow-sm transition-all"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 text-[#BFDBF7]" />
+                  <Check className="w-4 h-4 text-[#D8F3DC]" />
                   <span>Copied!</span>
                 </>
               ) : (
                 <>
-                  <Share2 className="w-3.5 h-3.5 text-[#BFDBF7]" />
+                  <Share2 className="w-3.5 h-3.5 text-[#D8F3DC]" />
                   <span>Copy Link</span>
                 </>
               )}
@@ -104,7 +104,7 @@ export function PublicProfileClient({ profile, certificates }: Props) {
         </div>
 
         {profile.bio && (
-          <p className="mt-4 text-[#022B3A] text-sm leading-relaxed max-w-3xl font-medium">
+          <p className="mt-4 text-[#1B4332] text-sm leading-relaxed max-w-3xl font-medium">
             {profile.bio}
           </p>
         )}
@@ -113,9 +113,9 @@ export function PublicProfileClient({ profile, certificates }: Props) {
       {/* Categories & Filter Bar */}
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-2">
-          <Award className="w-5 h-5 text-[#1F7A8C]" />
-          <h2 className="text-xl font-black text-[#022B3A]">Verified Credentials</h2>
-          <span className="text-xs bg-[#BFDBF7] text-[#022B3A] px-2.5 py-0.5 rounded-full border border-[#1F7A8C]/30 font-extrabold ml-2">
+          <Award className="w-5 h-5 text-[#40916C]" />
+          <h2 className="text-xl font-black text-[#1B4332]">Verified Credentials</h2>
+          <span className="text-xs bg-[#D8F3DC] text-[#1B4332] px-2.5 py-0.5 rounded-full border border-[#40916C]/30 font-extrabold ml-2">
             {certificates.length} Total
           </span>
         </div>
@@ -128,8 +128,8 @@ export function PublicProfileClient({ profile, certificates }: Props) {
               onClick={() => setSelectedCategory(cat)}
               className={`text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all border ${
                 selectedCategory === cat
-                  ? 'bg-[#1F7A8C] text-white border-[#1F7A8C] shadow-xs'
-                  : 'bg-white text-[#022B3A] hover:bg-[#E1E5F2] border-[#E1E5F2]'
+                  ? 'bg-[#40916C] text-white border-[#40916C] shadow-xs'
+                  : 'bg-white text-[#1B4332] hover:bg-[#D8F3DC] border-[#D8F3DC]'
               }`}
             >
               {cat}
@@ -140,11 +140,11 @@ export function PublicProfileClient({ profile, certificates }: Props) {
 
       {/* Certificate Cards Grid */}
       {filteredCerts.length === 0 ? (
-        <div className="bg-white border-2 border-[#E1E5F2] rounded-3xl p-12 text-center shadow-sm">
-          <div className="w-16 h-16 bg-[#BFDBF7]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#1F7A8C]">
-            <Award className="w-8 h-8 text-[#022B3A]" />
+        <div className="bg-white border-2 border-[#D8F3DC] rounded-3xl p-12 text-center shadow-sm">
+          <div className="w-16 h-16 bg-[#D8F3DC]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#40916C]">
+            <Award className="w-8 h-8 text-[#1B4332]" />
           </div>
-          <h3 className="text-lg font-bold text-[#022B3A]">No verified credentials to display</h3>
+          <h3 className="text-lg font-bold text-[#1B4332]">No verified credentials to display</h3>
           <p className="text-slate-500 text-xs max-w-sm mx-auto mt-1">
             This showcase does not have any certificates listed in this category yet.
           </p>
@@ -154,21 +154,21 @@ export function PublicProfileClient({ profile, certificates }: Props) {
           {filteredCerts.map((cert) => (
             <div
               key={cert.id}
-              className="bg-white border-2 border-[#E1E5F2] hover:border-[#022B3A] rounded-2xl p-6 transition-all shadow-sm group flex flex-col justify-between"
+              className="bg-white border-2 border-[#D8F3DC] hover:border-[#1B4332] rounded-2xl p-6 transition-all shadow-sm group flex flex-col justify-between"
             >
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="text-[10px] font-black uppercase tracking-wider bg-[#BFDBF7] text-[#022B3A] px-2.5 py-0.5 rounded-md border border-[#1F7A8C]/30">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-[#D8F3DC] text-[#1B4332] px-2.5 py-0.5 rounded-md border border-[#40916C]/30">
                     {cert.category || 'Credential'}
                   </span>
                   <div className="flex items-center gap-2">
                     {cert.file_url && (
                       <button
                         onClick={() => setViewingImage({ url: cert.file_url!, title: cert.title })}
-                        className="p-1.5 text-[#022B3A] bg-[#BFDBF7]/50 hover:bg-[#BFDBF7] rounded-lg border border-[#1F7A8C]/30 transition-colors"
+                        className="p-1.5 text-[#1B4332] bg-[#D8F3DC]/50 hover:bg-[#D8F3DC] rounded-lg border border-[#40916C]/30 transition-colors"
                         title="View Certificate Image"
                       >
-                        <Eye className="w-3.5 h-3.5 text-[#022B3A]" />
+                        <Eye className="w-3.5 h-3.5 text-[#1B4332]" />
                       </button>
                     )}
                     {cert.credential_url && (
@@ -176,7 +176,7 @@ export function PublicProfileClient({ profile, certificates }: Props) {
                         href={cert.credential_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-slate-400 hover:text-[#1F7A8C] transition-colors p-1"
+                        className="text-slate-400 hover:text-[#40916C] transition-colors p-1"
                         title="Verify Credential"
                       >
                         <ExternalLink className="w-4 h-4" />
@@ -185,16 +185,16 @@ export function PublicProfileClient({ profile, certificates }: Props) {
                   </div>
                 </div>
 
-                <h3 className="font-extrabold text-[#022B3A] text-lg leading-snug group-hover:text-[#1F7A8C] transition-colors">
+                <h3 className="font-extrabold text-[#1B4332] text-lg leading-snug group-hover:text-[#40916C] transition-colors">
                   {cert.title}
                 </h3>
-                <p className="text-[#1F7A8C] text-xs font-semibold mt-1">{cert.issuer}</p>
+                <p className="text-[#40916C] text-xs font-semibold mt-1">{cert.issuer}</p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#E1E5F2] flex justify-between items-center text-xs font-mono text-slate-600">
+              <div className="mt-6 pt-4 border-t border-[#D8F3DC] flex justify-between items-center text-xs font-mono text-slate-600">
                 <span>Issued: {cert.issue_date}</span>
-                <span className="text-[#022B3A] font-bold flex items-center gap-1 bg-[#BFDBF7]/60 px-2 py-0.5 rounded border border-[#1F7A8C]/30">
-                  <Check className="w-3.5 h-3.5 text-[#1F7A8C]" /> Verified
+                <span className="text-[#1B4332] font-bold flex items-center gap-1 bg-[#D8F3DC]/60 px-2 py-0.5 rounded border border-[#40916C]/30">
+                  <Check className="w-3.5 h-3.5 text-[#40916C]" /> Verified
                 </span>
               </div>
             </div>

@@ -217,12 +217,12 @@ export function EditProfileModal({
   const previewInitials = getInitials(fullName || 'User Profile');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#022B3A]/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white border-2 border-[#022B3A] rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl relative max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1B4332]/70 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white border-2 border-[#1B4332] rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl relative max-h-[92vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-[#022B3A] hover:bg-slate-100 rounded-full transition-colors"
+          className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-[#1B4332] hover:bg-slate-100 rounded-full transition-colors"
           title="Close (Esc)"
         >
           <X className="w-5 h-5" />
@@ -230,11 +230,11 @@ export function EditProfileModal({
 
         {/* Modal Header */}
         <div className="flex items-center gap-2.5 mb-5">
-          <div className="bg-[#022B3A] text-[#BFDBF7] p-2.5 rounded-xl border border-[#022B3A] font-bold shadow-sm">
+          <div className="bg-[#1B4332] text-[#D8F3DC] p-2.5 rounded-xl border border-[#1B4332] font-bold shadow-sm">
             <User className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-[#022B3A]">Edit Profile & Showcase</h3>
+            <h3 className="text-xl font-black text-[#1B4332]">Edit Profile & Showcase</h3>
             <p className="text-slate-500 text-xs font-semibold">Changes are saved permanently in MongoDB.</p>
           </div>
         </div>
@@ -255,9 +255,9 @@ export function EditProfileModal({
         )}
 
         {/* Live Profile Card Preview */}
-        <div className="mb-5 bg-gradient-to-br from-[#022B3A] to-[#1F7A8C] p-4 rounded-2xl text-white shadow-md">
+        <div className="mb-5 bg-gradient-to-br from-[#1B4332] to-[#40916C] p-4 rounded-2xl text-white shadow-md">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#BFDBF7]">Live Showcase Preview</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#D8F3DC]">Live Showcase Preview</span>
             <span className="text-[10px] font-mono bg-white/20 px-2 py-0.5 rounded-full flex items-center gap-1">
               {visibility === 'public' && <Globe className="w-3 h-3" />}
               {visibility === 'unlisted' && <EyeOff className="w-3 h-3" />}
@@ -266,7 +266,7 @@ export function EditProfileModal({
             </span>
           </div>
           <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 rounded-2xl bg-[#022B3A] border-2 border-white/40 overflow-hidden flex items-center justify-center font-black text-xl text-[#BFDBF7] shrink-0 shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-[#1B4332] border-2 border-white/40 overflow-hidden flex items-center justify-center font-black text-xl text-[#D8F3DC] shrink-0 shadow-inner">
               {avatarUrl ? (
                 <img
                   src={avatarUrl}
@@ -281,7 +281,7 @@ export function EditProfileModal({
               <h4 className="text-base font-black truncate leading-snug">
                 {fullName.trim() || 'Your Name'}
               </h4>
-              <p className="text-xs text-[#BFDBF7] truncate font-medium">
+              <p className="text-xs text-[#D8F3DC] truncate font-medium">
                 {headline.trim() || 'Your Professional Headline'}
               </p>
               <p className="text-[11px] font-mono text-slate-300 truncate mt-0.5">
@@ -301,10 +301,10 @@ export function EditProfileModal({
           />
 
           {/* Profile Photo & Preset Avatars */}
-          <div className="bg-[#E1E5F2]/30 p-4 rounded-2xl border border-[#E1E5F2]">
+          <div className="bg-[#D8F3DC]/30 p-4 rounded-2xl border border-[#D8F3DC]">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-bold text-[#022B3A] uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#1F7A8C]" />
+              <label className="text-xs font-bold text-[#1B4332] uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>Profile Picture</span>
               </label>
               <div className="flex items-center gap-2">
@@ -323,16 +323,16 @@ export function EditProfileModal({
                   type="button"
                   disabled={isUploading}
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-xs font-bold text-[#022B3A] bg-[#BFDBF7] hover:bg-[#A4CEF4] px-3 py-1.5 rounded-xl border border-[#1F7A8C]/30 flex items-center gap-1.5 transition-colors disabled:opacity-50 shadow-xs"
+                  className="text-xs font-bold text-[#1B4332] bg-[#D8F3DC] hover:bg-[#D8F3DC] px-3 py-1.5 rounded-xl border border-[#40916C]/30 flex items-center gap-1.5 transition-colors disabled:opacity-50 shadow-xs"
                 >
                   {isUploading ? (
                     <>
-                      <Loader2 className="w-3 h-3 animate-spin text-[#1F7A8C]" />
+                      <Loader2 className="w-3 h-3 animate-spin text-[#40916C]" />
                       <span>Uploading...</span>
                     </>
                   ) : (
                     <>
-                      <Database className="w-3 h-3 text-[#1F7A8C]" />
+                      <Database className="w-3 h-3 text-[#40916C]" />
                       <span>Upload Photo</span>
                     </>
                   )}
@@ -354,8 +354,8 @@ export function EditProfileModal({
                     }}
                     className={`relative rounded-xl overflow-hidden border-2 transition-all aspect-square group ${
                       isSelected
-                        ? 'border-[#022B3A] ring-2 ring-[#1F7A8C] scale-105 shadow-md z-10'
-                        : 'border-[#E1E5F2] hover:border-[#1F7A8C] hover:scale-105 bg-white'
+                        ? 'border-[#1B4332] ring-2 ring-[#40916C] scale-105 shadow-md z-10'
+                        : 'border-[#D8F3DC] hover:border-[#40916C] hover:scale-105 bg-white'
                     }`}
                     title={avatar.label}
                   >
@@ -365,8 +365,8 @@ export function EditProfileModal({
                       className="w-full h-full object-cover"
                     />
                     {isSelected && (
-                      <div className="absolute inset-0 bg-[#022B3A]/40 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-[#BFDBF7] stroke-[3]" />
+                      <div className="absolute inset-0 bg-[#1B4332]/40 flex items-center justify-center">
+                        <Check className="w-4 h-4 text-[#D8F3DC] stroke-[3]" />
                       </div>
                     )}
                   </button>
@@ -378,7 +378,7 @@ export function EditProfileModal({
           {/* Full Name & Username */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-bold text-[#022B3A] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
                 Full Name *
               </label>
               <input
@@ -387,14 +387,14 @@ export function EditProfileModal({
                 placeholder="e.g. Alex Johnson"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E1E5F2] focus:border-[#022B3A] outline-none text-sm text-[#022B3A] font-semibold"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-semibold"
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-bold text-[#022B3A] uppercase tracking-wider flex items-center gap-1">
-                  <AtSign className="w-3 h-3 text-[#1F7A8C]" />
+                <label className="text-xs font-bold text-[#1B4332] uppercase tracking-wider flex items-center gap-1">
+                  <AtSign className="w-3 h-3 text-[#40916C]" />
                   <span>Username *</span>
                 </label>
                 {isCheckingUsername ? (
@@ -422,8 +422,8 @@ export function EditProfileModal({
                     usernameStatus === 'taken'
                       ? 'border-red-400 bg-red-50/50 text-red-800'
                       : usernameStatus === 'valid'
-                      ? 'border-emerald-400 bg-emerald-50/30 text-[#022B3A]'
-                      : 'border-[#E1E5F2] focus:border-[#022B3A] text-[#022B3A]'
+                      ? 'border-emerald-400 bg-emerald-50/30 text-[#1B4332]'
+                      : 'border-[#D8F3DC] focus:border-[#1B4332] text-[#1B4332]'
                   }`}
                 />
               </div>
@@ -432,7 +432,7 @@ export function EditProfileModal({
 
           {/* Headline */}
           <div>
-            <label className="block text-xs font-bold text-[#022B3A] uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-1">
               Headline / Title
             </label>
             <input
@@ -440,14 +440,14 @@ export function EditProfileModal({
               placeholder="e.g. Senior Cloud Architect | AWS & GCP Certified"
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-[#E1E5F2] focus:border-[#022B3A] outline-none text-sm text-[#022B3A] font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium"
             />
           </div>
 
           {/* Bio */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-bold text-[#022B3A] uppercase tracking-wider">
+              <label className="text-xs font-bold text-[#1B4332] uppercase tracking-wider">
                 Short Bio
               </label>
               <span className="text-[10px] text-slate-400 font-mono">
@@ -460,13 +460,13 @@ export function EditProfileModal({
               placeholder="Brief overview of your experience, skills, and certifications..."
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-[#E1E5F2] focus:border-[#022B3A] outline-none text-sm text-[#022B3A] font-medium resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#D8F3DC] focus:border-[#1B4332] outline-none text-sm text-[#1B4332] font-medium resize-none"
             />
           </div>
 
           {/* Visibility Selector */}
           <div>
-            <label className="block text-xs font-bold text-[#022B3A] uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">
               Profile Visibility
             </label>
             <div className="grid grid-cols-3 gap-2.5">
@@ -475,12 +475,12 @@ export function EditProfileModal({
                 onClick={() => setVisibility('public')}
                 className={`p-2.5 rounded-xl border-2 text-left transition-all flex flex-col gap-1 ${
                   visibility === 'public'
-                    ? 'border-[#1F7A8C] bg-[#1F7A8C]/10 text-[#022B3A]'
-                    : 'border-[#E1E5F2] hover:border-slate-300 text-slate-600'
+                    ? 'border-[#40916C] bg-[#40916C]/10 text-[#1B4332]'
+                    : 'border-[#D8F3DC] hover:border-slate-300 text-slate-600'
                 }`}
               >
                 <div className="flex items-center gap-1.5 font-black text-xs">
-                  <Globe className="w-3.5 h-3.5 text-[#1F7A8C]" />
+                  <Globe className="w-3.5 h-3.5 text-[#40916C]" />
                   <span>Public</span>
                 </div>
                 <span className="text-[10px] text-slate-500 leading-tight">Searchable & visible to all</span>
@@ -491,12 +491,12 @@ export function EditProfileModal({
                 onClick={() => setVisibility('unlisted')}
                 className={`p-2.5 rounded-xl border-2 text-left transition-all flex flex-col gap-1 ${
                   visibility === 'unlisted'
-                    ? 'border-[#1F7A8C] bg-[#1F7A8C]/10 text-[#022B3A]'
-                    : 'border-[#E1E5F2] hover:border-slate-300 text-slate-600'
+                    ? 'border-[#40916C] bg-[#40916C]/10 text-[#1B4332]'
+                    : 'border-[#D8F3DC] hover:border-slate-300 text-slate-600'
                 }`}
               >
                 <div className="flex items-center gap-1.5 font-black text-xs">
-                  <EyeOff className="w-3.5 h-3.5 text-[#1F7A8C]" />
+                  <EyeOff className="w-3.5 h-3.5 text-[#40916C]" />
                   <span>Unlisted</span>
                 </div>
                 <span className="text-[10px] text-slate-500 leading-tight">Only direct link access</span>
@@ -507,12 +507,12 @@ export function EditProfileModal({
                 onClick={() => setVisibility('private')}
                 className={`p-2.5 rounded-xl border-2 text-left transition-all flex flex-col gap-1 ${
                   visibility === 'private'
-                    ? 'border-[#022B3A] bg-[#022B3A]/10 text-[#022B3A]'
-                    : 'border-[#E1E5F2] hover:border-slate-300 text-slate-600'
+                    ? 'border-[#1B4332] bg-[#1B4332]/10 text-[#1B4332]'
+                    : 'border-[#D8F3DC] hover:border-slate-300 text-slate-600'
                 }`}
               >
                 <div className="flex items-center gap-1.5 font-black text-xs">
-                  <Lock className="w-3.5 h-3.5 text-[#022B3A]" />
+                  <Lock className="w-3.5 h-3.5 text-[#1B4332]" />
                   <span>Private</span>
                 </div>
                 <span className="text-[10px] text-slate-500 leading-tight">Hidden from showcase</span>
@@ -525,23 +525,23 @@ export function EditProfileModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-[#E1E5F2] hover:bg-[#BFDBF7]/60 text-[#022B3A] font-bold text-sm py-3 rounded-xl transition-colors"
+              className="flex-1 bg-[#D8F3DC] hover:bg-[#D8F3DC]/60 text-[#1B4332] font-bold text-sm py-3 rounded-xl transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || isCheckingUsername || usernameStatus === 'taken'}
-              className="flex-1 bg-[#1F7A8C] hover:bg-[#175F6D] text-white font-black text-sm py-3 rounded-xl border border-[#1F7A8C] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-1.5"
+              className="flex-1 bg-[#40916C] hover:bg-[#1B4332] text-white font-black text-sm py-3 rounded-xl border border-[#40916C] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-1.5"
             >
               {saving ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin text-[#BFDBF7]" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#D8F3DC]" />
                   <span>Saving to Database...</span>
                 </>
               ) : (
                 <>
-                  <Save className="w-4 h-4 text-[#BFDBF7]" />
+                  <Save className="w-4 h-4 text-[#D8F3DC]" />
                   <span>Save Profile</span>
                 </>
               )}
